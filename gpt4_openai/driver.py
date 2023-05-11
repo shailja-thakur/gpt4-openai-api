@@ -252,10 +252,11 @@ class ChatGptDriver:
         self.logger.debug('Getting Cloudflare challenge...')
         self.driver.get('https://chat.openai.com/api/auth/session')
         try:
-            WebDriverWait(self.driver, 10).until_not(
+            WebDriverWait(self.driver, 60).until_not(
                 EC.presence_of_element_located(cf_challenge_form)
             )
-        except SeleniumExceptions.TimeoutException:
+        except SeleniumExceptions.
+        Exception:
             self.logger.debug(f'Cloudflare challenge failed, retrying {retry}...')
             self.driver.save_screenshot(f'cf_failed_{retry}.png')
             if retry > 0:
@@ -292,7 +293,7 @@ class ChatGptDriver:
         while True:
             try:
                 self.logger.debug('Checking if ChatGPT is at capacity...')
-                WebDriverWait(self.driver, 3).until(
+                WebDriverWait(self.driver, 30).until(
                     EC.presence_of_element_located(
                         (By.XPATH, '//div[text()="ChatGPT is at capacity right now"]')
                     )
@@ -316,11 +317,11 @@ class ChatGptDriver:
         self.__check_capacity('https://chat.openai.com/auth/login')
 
         self.logger.debug('Clicking login button...')
-        WebDriverWait(self.driver, 5).until(
+        WebDriverWait(self.driver, 15).until(
             EC.element_to_be_clickable(chatgpt_login_btn)
         ).click()
 
-        WebDriverWait(self.driver, 5).until(
+        WebDriverWait(self.driver, 15).until(
             EC.presence_of_element_located(chatgpt_login_h1)
         )
 
@@ -330,7 +331,7 @@ class ChatGptDriver:
 
         self.logger.debug('Checking if login was successful')
         try:
-            WebDriverWait(self.driver, 5).until(
+            WebDriverWait(self.driver, 15).until(
                 EC.presence_of_element_located(chatgpt_logged_h1)
             )
             if self.__login_cookies_path:
@@ -378,7 +379,7 @@ class ChatGptDriver:
         '''
         self.logger.debug('Looking for blocking elements...')
         try:
-            intro = WebDriverWait(self.driver, 3).until(
+            intro = WebDriverWait(self.driver, 60).until(
                 EC.presence_of_element_located(chatgpt_intro)
             )
             self.logger.debug('Dismissing intro...')
@@ -421,7 +422,7 @@ class ChatGptDriver:
 
         # Wait for page to load
         try:
-            textbox = WebDriverWait(self.driver, 10).until(
+            textbox = WebDriverWait(self.driver, 60).until(
                 EC.element_to_be_clickable(chatgpt_textbox)
             )
         except SeleniumExceptions.ElementClickInterceptedException():
@@ -435,7 +436,7 @@ class ChatGptDriver:
             ).click()
             self.logger.debug('Paid access detected, selecting GPT4 model...')
             self.__sleep(1.0)
-            WebDriverWait(self.driver, 3).until(
+            WebDriverWait(self.driver, 60).until(
                 EC.presence_of_element_located(gpt4_selector)
             ).click()
             self.logger.debug('GPT4 model selected')
@@ -450,7 +451,7 @@ class ChatGptDriver:
             textbox.click()
         except SeleniumExceptions.ElementClickInterceptedException():
             self.__check_blocking_elements()
-            textbox = WebDriverWait(self.driver, 10).until(
+            textbox = WebDriverWait(self.driver, 60).until(
                 EC.element_to_be_clickable(chatgpt_textbox)
             )
             textbox.click()
@@ -473,7 +474,7 @@ class ChatGptDriver:
             return print()
 
         self.logger.debug('Waiting for completion...')
-        WebDriverWait(self.driver, 120).until_not(
+        WebDriverWait(self.driver, 360).until_not(
             EC.presence_of_element_located(chatgpt_streaming)
         )
 
