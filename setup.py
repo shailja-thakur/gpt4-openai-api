@@ -4,9 +4,9 @@ setup(
     name="gpt4-openai-api",
     version="0.1.0",
     description="Python package for unofficial GPT-4 API access via chat.openai.com using Selenium browser",
-    author="Erol444",
-    author_email="erol123444@gmail.com",
-    url="https://github.com/Erol444/gpt4-openai-api",
+    author="shailja-thakur",
+    author_email="shaija.thakur90@gmail.com",
+    url="https://github.com/shailja-thakur/gpt4-openai-api",
     packages=["gpt4_openai"],
     install_requires=[
         "undetected-chromedriver>=3.4.6",
